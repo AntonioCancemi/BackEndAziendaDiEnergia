@@ -30,7 +30,7 @@ public class ClienteService {
 			throw new EntityNotFoundException("Cliente[id:" + c.getIdCliente() + "] not Found");
 		}
 		repo.save(c);
-		return "cliete salvato";
+		return "cliente salvato";
 	}
 
 	public String remove(Long id) {
