@@ -75,8 +75,7 @@ public class Cliente {
 		this.cognomeContatto = cognomeContatto;
 		this.telefonoContatto = telefonoContatto;
 		this.tipoCliente = tipoCliente;
-		// this.sedeLegale = sedeLegale;
-		// this.sedeOperativa = sedeLegale;
+
 	}
 
 }
