@@ -26,26 +26,24 @@ public class ComuneItaliaRunner implements ApplicationRunner {
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
 
-		setComuni();
+		//setComuni();
 		
 	}
 	
 	public void setComuni() throws IOException, CsvValidationException {
-		String fileName = "C:\\Users\\user\\Desktop\\comuni-italiani.csv";
-		try (CSVReader reader = new CSVReader(new FileReader("C:\\Users\\user\\Desktop\\comuni-italiani.csv"))) {
+		try (CSVReader reader = new CSVReader(new FileReader("/gestionale_anziendale_energia/comuni-italiani.csv"))) {
 		      String[] lineInArray;
 		      while ((lineInArray = reader.readNext()) != null) {
-//		          String a = lineInArray[0].substring(0,3);
-//		          String b = lineInArray[0].substring(4,7);
-//		          String c = lineInArray[0].substring(8);
-		          String[] parts = lineInArray[0].split(";");
-		          String part1 = parts[0];
-		          String part2 = parts[1];
-		          String part3 = parts[2];
-		          String part4 = parts[3];
-		          ComuneItalia ci = new ComuneItalia(part2, part1, part3, null);
-		          //ciService.createComune(ci);
-		          System.out.println(part4);
+		          String a = lineInArray[0].substring(0,3);
+                  String b = lineInArray[0].substring(4,7);
+                  String c = lineInArray[0].substring(8);
+                  String[] parts = c.split(";");
+                  String part1 = parts[0];
+                  String part2 = parts[1];
+//                  String part3 = parts[2];
+//                  String part4 = parts[3];
+                  ComuneItalia ci = new ComuneItalia(b, a, part1, part2);
+                  ciService.createComune(ci);
 		      }
 		  }
 	}

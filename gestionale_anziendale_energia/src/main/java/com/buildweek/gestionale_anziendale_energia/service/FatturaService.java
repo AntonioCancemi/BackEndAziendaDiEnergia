@@ -21,6 +21,7 @@ import jakarta.persistence.EntityNotFoundException;
 public class FatturaService {
 	
 	@Autowired FatturaDAOrepository repo;
+	@Autowired ClienteService servCliente;
 	
 	public List<Fattura> getAll() {
 		return (List<Fattura>) repo.findAll();
@@ -58,17 +59,28 @@ public class FatturaService {
 	}
 
 	/////////////////////////////////////////
+	public Fattura getFatturaByNumero(Integer numero) {
+		if(repo.existsByNumero(numero)) {
+			throw new EntityNotFoundException("Fattura non esiste!");
+		}
+		return repo.findByNumero(numero);
+	}
 
 	public List<Fattura> getByCliente(Cliente c) {
 		return repo.findByCliente(c);
 	}
 	
+	 public List<Fattura> listatoByCliente(Long id) {
+		 Cliente c = servCliente.getById(id);
+		 return repo.findByCliente(c);		 
+	   }
+	
     public List<Fattura>getByStato(StatoFattura s){
-    return repo.findByStato(s);
+    return repo.findByStatoFattura(s);
     }
     
     public List<Fattura> getByData(LocalDate dataFattura){
-    	return repo.findByData(dataFattura);
+    	return repo.findByDataFattura(dataFattura);
     }
     
     public List<Fattura> getByAnno(Integer anno){
@@ -86,12 +98,13 @@ public class FatturaService {
 	}
 	
 	public Page<Fattura> getByDataPag(LocalDate data, Pageable pageable){
-      return repo.findByDataPag(data, pageable);
+      return repo.findByDataFattura(data, pageable);
 	   }
 	
 	public Page<Fattura> getByRangeData(LocalDate startDate, LocalDate endDate, Pageable pageable){
 		  return repo.findByRangeDataPag(startDate, endDate, pageable);
 	   }
+
 	
     
     

@@ -20,13 +20,15 @@ public interface FatturaDAOrepository extends JpaRepository<Fattura, Long>,
                                               PagingAndSortingRepository<Fattura, Long>{
 
 	public Boolean existsByNumero(Integer numero);
-		
+	
+	public Fattura findByNumero(Integer numero);	
+	
 	//filtra per cliente
 	 List<Fattura> findByCliente(Cliente cliente);
 	//filtra per stato
-	 List<Fattura> findByStato(StatoFattura statoFattura);
+	 List<Fattura> findByStatoFattura(StatoFattura statoFattura);
 	//filtra per data
-	 List<Fattura> findByData(LocalDate dataFattura);
+	 List<Fattura> findByDataFattura(LocalDate dataFattura);
 	//filtra per anno
 	 List<Fattura> findByAnno(Integer anno);
 	 //filtra pe range di importi
@@ -35,7 +37,7 @@ public interface FatturaDAOrepository extends JpaRepository<Fattura, Long>,
 	 
 	 ///////////////////////////////
 	 
-	 public Page<Fattura> findByDataPag(LocalDate data, Pageable pageable);
+	 public Page<Fattura> findByDataFattura(LocalDate data, Pageable pageable);
 	 
 	 @Query("SELECT f FROM Fattura f WHERE f.dataFattura BETWEEN :inizio AND :fine")
 		public Page<Fattura> findByRangeDataPag(LocalDate inizio, LocalDate fine, Pageable pageable);
