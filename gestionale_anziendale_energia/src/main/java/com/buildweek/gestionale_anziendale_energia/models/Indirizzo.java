@@ -7,7 +7,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -36,8 +35,8 @@ public class Indirizzo {
 	@Column(nullable = false)
 	private TipoIndirizzo tipoIndirizzo;
 
-	@ManyToOne
-	private Cliente cliente;
+//	@ManyToOne
+//	private Cliente cliente;
 //	
 //	{"via":"corso italia",
 //	"civico":123,
