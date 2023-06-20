@@ -54,7 +54,7 @@ public class Cliente {
 	@Enumerated(EnumType.STRING)
 	private TipoCliente tipoCliente;
 
-	@OneToMany(mappedBy = "cliente")
+	@OneToMany
 	private List<Indirizzo> indirizzi;
 
 	@OneToMany(mappedBy = "cliente")
@@ -75,8 +75,7 @@ public class Cliente {
 		this.cognomeContatto = cognomeContatto;
 		this.telefonoContatto = telefonoContatto;
 		this.tipoCliente = tipoCliente;
-		// this.sedeLegale = sedeLegale;
-		// this.sedeOperativa = sedeLegale;
+
 	}
 
 }
