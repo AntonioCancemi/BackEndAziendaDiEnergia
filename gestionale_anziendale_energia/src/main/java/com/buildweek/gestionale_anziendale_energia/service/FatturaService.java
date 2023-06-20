@@ -1,6 +1,5 @@
 package com.buildweek.gestionale_anziendale_energia.service;
 
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -10,7 +9,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.buildweek.gestionale_anziendale_energia.enumeration.StatoFattura;
-import com.buildweek.gestionale_anziendale_energia.models.Cliente;
 import com.buildweek.gestionale_anziendale_energia.models.Fattura;
 import com.buildweek.gestionale_anziendale_energia.repository.FatturaDAOrepository;
 
@@ -19,39 +17,41 @@ import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class FatturaService {
-	
-	@Autowired FatturaDAOrepository repo;
-	@Autowired ClienteService servCliente;
-	
+
+	@Autowired
+	FatturaDAOrepository repo;
+	@Autowired
+	ClienteService servCliente;
+
 	public List<Fattura> getAll() {
 		return (List<Fattura>) repo.findAll();
 	}
-	
+
 	public Fattura getById(Long id) {
-		if(!repo.existsById(id)) {
+		if (!repo.existsById(id)) {
 			throw new EntityNotFoundException("Fattura non esiste!");
 		}
 		return repo.findById(id).get();
 	}
-	
+
 	public Fattura createFattura(Fattura fattura) {
-		if(repo.existsByNumero(fattura.getNumero())) {
+		if (repo.existsById(fattura.getNumero())) {
 			throw new EntityExistsException("La fattura con " + fattura.getNumero() + " è già stata creata");
 		}
 		repo.save(fattura);
 		return fattura;
 	}
-	
+
 	public Fattura updateFattura(Fattura fattura) {
-		if(repo.existsByNumero(fattura.getNumero())){
+		if (repo.existsById(fattura.getNumero())) {
 			throw new EntityExistsException(" Fattura [id:" + fattura.getNumero() + "] not Found");
 		}
 		repo.save(fattura);
 		return fattura;
 	}
-	
+
 	public String removeFattura(Long id) {
-		if(!repo.existsById(id)) {
+		if (!repo.existsById(id)) {
 			throw new EntityExistsException("Fattura not found");
 		}
 		repo.deleteById(id);
@@ -59,54 +59,50 @@ public class FatturaService {
 	}
 
 	/////////////////////////////////////////
-	public Fattura getFatturaByNumero(Integer numero) {
-		if(repo.existsByNumero(numero)) {
+	public Fattura getFatturaByNumero(Long id) {
+		if (repo.existsById(id)) {
 			throw new EntityNotFoundException("Fattura non esiste!");
 		}
-		return repo.findByNumero(numero);
+		return repo.findById(id).get();
 	}
 
-	public List<Fattura> getByCliente(Cliente c) {
-		return repo.findByCliente(c);
+//	public List<Fattura> getByCliente(Cliente c) {
+//		return repo.findByCliente(c);
+//	}
+//	
+//	 public List<Fattura> listatoByCliente(Long id) {
+//		 Cliente c = servCliente.getById(id);
+//		 return repo.findByCliente(c);		 
+//	   }
+
+	public List<Fattura> getByStato(StatoFattura s) {
+		return repo.findByStatoFattura(s);
 	}
-	
-	 public List<Fattura> listatoByCliente(Long id) {
-		 Cliente c = servCliente.getById(id);
-		 return repo.findByCliente(c);		 
-	   }
-	
-    public List<Fattura>getByStato(StatoFattura s){
-    return repo.findByStatoFattura(s);
-    }
-    
-    public List<Fattura> getByData(LocalDate dataFattura){
-    	return repo.findByDataFattura(dataFattura);
-    }
-    
-    public List<Fattura> getByAnno(Integer anno){
-    	return repo.findByAnno(anno);
-    }
-    
+
+	public List<Fattura> getByData(LocalDate dataFattura) {
+		return repo.findByDataFattura(dataFattura);
+	}
+
+	public List<Fattura> getByAnno(Integer anno) {
+		return repo.findByAnno(anno);
+	}
+
 	public List<Fattura> getByRangeImporto(double d1, double d2) {
 		return repo.findByRangeImporto(d1, d2);
-    }
+	}
 
-    ///////////////////////////////////////
-	
+	///////////////////////////////////////
+
 	public Page<Fattura> getAllFatturePag(Pageable pag) {
 		return (Page<Fattura>) repo.findAll(pag);
 	}
-	
-	public Page<Fattura> getByDataPag(LocalDate data, Pageable pageable){
-      return repo.findByDataFattura(data, pageable);
-	   }
-	
-	public Page<Fattura> getByRangeData(LocalDate startDate, LocalDate endDate, Pageable pageable){
-		  return repo.findByRangeDataPag(startDate, endDate, pageable);
-	   }
 
-	
-    
-    
+	public Page<Fattura> getByDataPag(LocalDate data, Pageable pageable) {
+		return repo.findByDataFattura(data, pageable);
+	}
+
+	public Page<Fattura> getByRangeData(LocalDate startDate, LocalDate endDate, Pageable pageable) {
+		return repo.findByRangeDataPag(startDate, endDate, pageable);
+	}
+
 }
-

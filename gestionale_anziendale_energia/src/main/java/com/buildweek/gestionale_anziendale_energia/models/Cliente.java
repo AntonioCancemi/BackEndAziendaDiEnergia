@@ -54,10 +54,10 @@ public class Cliente {
 	@Enumerated(EnumType.STRING)
 	private TipoCliente tipoCliente;
 
-	@OneToMany(mappedBy = "cliente")
+	@OneToMany
 	private List<Indirizzo> indirizzi;
 
-	@OneToMany(mappedBy = "cliente")
+	@OneToMany
 	private List<Fattura> fatture;
 
 	public Cliente(String ragioneSociale, String email, String pec, LocalDate dataInserimento,
