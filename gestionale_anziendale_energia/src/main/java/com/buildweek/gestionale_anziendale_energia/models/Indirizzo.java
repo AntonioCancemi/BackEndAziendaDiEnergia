@@ -35,9 +35,6 @@ public class Indirizzo {
 	@Column(nullable = false)
 	private TipoIndirizzo tipoIndirizzo;
 
-//	@ManyToOne
-//	private Cliente cliente;
-//	
 //	{"via":"corso italia",
 //	"civico":123,
 //	"localita":"Libbrino",

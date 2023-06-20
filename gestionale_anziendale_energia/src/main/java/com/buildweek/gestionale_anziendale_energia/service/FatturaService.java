@@ -6,11 +6,15 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.buildweek.gestionale_anziendale_energia.enumeration.StatoFattura;
 import com.buildweek.gestionale_anziendale_energia.models.Fattura;
+import com.buildweek.gestionale_anziendale_energia.models.FatturaDTO;
+import com.buildweek.gestionale_anziendale_energia.repository.ClienteDAOrepository;
 import com.buildweek.gestionale_anziendale_energia.repository.FatturaDAOrepository;
+import com.buildweek.gestionale_anziendale_energia.security.exception.MyAPIException;
 
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
@@ -21,7 +25,8 @@ public class FatturaService {
 	@Autowired
 	FatturaDAOrepository repo;
 	@Autowired
-	ClienteService servCliente;
+	ClienteDAOrepository repoCliente;
+	static Fattura fattura = new Fattura();
 
 	public List<Fattura> getAll() {
 		return (List<Fattura>) repo.findAll();
@@ -34,17 +39,29 @@ public class FatturaService {
 		return repo.findById(id).get();
 	}
 
-	public Fattura createFattura(Fattura fattura) {
-		if (repo.existsById(fattura.getNumero())) {
-			throw new EntityExistsException("La fattura con " + fattura.getNumero() + " è già stata creata");
+	public Fattura createFattura(FatturaDTO DTO) {
+		if (repo.existsByNumeroFattura(DTO.getNumeroFattura())) {
+			throw new EntityExistsException("La fattura n. " + DTO.getNumeroFattura() + " è già stata creata");
 		}
+		if (!repoCliente.existsById(DTO.getIdCliente())) {
+			throw new MyAPIException(HttpStatus.NOT_FOUND, "Cliente[" + DTO.getIdCliente() + "] non esiste");
+		}
+		Fattura fattura = new Fattura();
+		fattura.setAnno(DTO.getAnno());
+		fattura.setCliente(repoCliente.findById(DTO.getIdCliente()).get());
+		fattura.setDataFattura(DTO.getDataFattura());
+		fattura.setImporto(DTO.getImporto());
+		fattura.setNumeroFattura(DTO.getNumeroFattura());
+		fattura.setStatoFattura(DTO.getStatoFattura());
+		
+		System.out.println(fattura);
 		repo.save(fattura);
 		return fattura;
 	}
 
 	public Fattura updateFattura(Fattura fattura) {
-		if (repo.existsById(fattura.getNumero())) {
-			throw new EntityExistsException(" Fattura [id:" + fattura.getNumero() + "] not Found");
+		if (repo.existsById(fattura.getId())) {
+			throw new EntityExistsException(" Fattura [id:" + fattura.getId() + "] not Found");
 		}
 		repo.save(fattura);
 		return fattura;

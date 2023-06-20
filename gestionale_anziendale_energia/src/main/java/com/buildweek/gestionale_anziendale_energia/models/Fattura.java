@@ -11,8 +11,10 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -20,13 +22,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @Entity
+@Builder
 @Table(name = "fatture")
 public class Fattura {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_fattura")
-	private Long numero;
+	private Long id;
+	@Column(unique = true, nullable = false)
+	private Long numeroFattura;
 	@Column(nullable = false)
 	private Integer anno;
 	@Column(nullable = false)
@@ -36,7 +41,6 @@ public class Fattura {
 	@Enumerated(EnumType.STRING)
 	private StatoFattura statoFattura;
 
-//    @ManyToOne
-//    @JoinColumn(name = "cliente")
-//    private Cliente cliente;
+	@ManyToOne
+	private Cliente cliente;
 }

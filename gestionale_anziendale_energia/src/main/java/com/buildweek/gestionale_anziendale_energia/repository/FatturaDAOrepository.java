@@ -17,6 +17,8 @@ import com.buildweek.gestionale_anziendale_energia.models.Fattura;
 @Repository
 public interface FatturaDAOrepository extends JpaRepository<Fattura, Long>, PagingAndSortingRepository<Fattura, Long> {
 
+	boolean existsByNumeroFattura(Long numeroFattura);
+
 	// filtra per cliente
 	// List<Fattura> findByCliente(Cliente cliente);
 	// filtra per stato

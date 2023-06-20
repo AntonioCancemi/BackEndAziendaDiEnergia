@@ -57,9 +57,6 @@ public class Cliente {
 	@OneToMany
 	private List<Indirizzo> indirizzi;
 
-	@OneToMany
-	private List<Fattura> fatture;
-
 	public Cliente(String ragioneSociale, String email, String pec, LocalDate dataInserimento,
 			LocalDate dataUltimoContatto, int fatturatoAnnuale, String telefono, String emailContatto,
 			String nomeContatto, String cognomeContatto, String telefonoContatto, TipoCliente tipoCliente) {
@@ -76,6 +73,15 @@ public class Cliente {
 		this.telefonoContatto = telefonoContatto;
 		this.tipoCliente = tipoCliente;
 
+	}
+
+	@Override
+	public String toString() {
+		return "Cliente [idCliente=" + idCliente + ", ragioneSociale=" + ragioneSociale + ", email=" + email + ", pec="
+				+ pec + ", dataInserimento=" + dataInserimento + ", dataUltimoContatto=" + dataUltimoContatto
+				+ ", fatturatoAnnuale=" + fatturatoAnnuale + ", telefono=" + telefono + ", emailContatto="
+				+ emailContatto + ", nomeContatto=" + nomeContatto + ", cognomeContatto=" + cognomeContatto
+				+ ", telefonoContatto=" + telefonoContatto + ", tipoCliente=" + tipoCliente + "]";
 	}
 
 }
