@@ -8,4 +8,32 @@ import com.buildweek.gestionale_anziendale_energia.models.Cliente;
 
 public interface ClienteDAOrepository extends JpaRepository<Cliente, Long> {
 	List<Cliente> findByEmailAndPec(String email, String pec);
+
+
+	public boolean existsByEmail(String email);
+	public boolean existsByPec(String pec);
+
+/*Deve essere possibile ordinare i clienti per:
+Nome
+Fatturato annuale
+Data di inserimento
+Data di ultimo contatto
+Provincia della sede legale.
+*/
+// ordine alfabetico per nome
+ @Query("SELECT c FROM Cliente c ORDER BY c.nomeContatto ASC")
+    Optional<List<Customer>> getAllClienteOrderBynomeContatto();
+ //ordine per fatturato
+@Query("SELECT c FROM Cliente c ORDER BY c.fatturatoAnnuale ASC")
+    Optional<List<Customer>> getAllClienteOrderByFatturatoAnnuo();
+// ordine per data inserimento 
+@Query("SELECT c FROM Cliente c ORDER BY c.dataInserimento DESC")
+    Optional<List<Customer>> getAllClienteOrderByDataInserimento();
+// ordine di data ultimo contatto 
+@Query("SELECT c FROM Cliente c ORDER BY c.dataUltimoContatto DESC")
+    Optional<List<Customer>> getAllClienteOrderByDataUltimoContatto();
+//provincia della sede legale
+@Query("SELECT c FROM Cliente c INNER JOIN c.sedeLegale")
+	
+
 }
