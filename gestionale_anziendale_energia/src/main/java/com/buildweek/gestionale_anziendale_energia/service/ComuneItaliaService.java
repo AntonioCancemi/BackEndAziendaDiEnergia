@@ -1,9 +1,10 @@
-package com.buildweek.gestionale_anziendale_energia.comuni;
+package com.buildweek.gestionale_anziendale_energia.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.buildweek.gestionale_anziendale_energia.models.ComuneItalia;
+import com.buildweek.gestionale_anziendale_energia.repository.ComuneItaliaDaoRepository;
 
 import jakarta.persistence.EntityExistsException;
 

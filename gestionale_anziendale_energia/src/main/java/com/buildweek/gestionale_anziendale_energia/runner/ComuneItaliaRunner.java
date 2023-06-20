@@ -1,4 +1,4 @@
-package com.buildweek.gestionale_anziendale_energia.comuni;
+package com.buildweek.gestionale_anziendale_energia.runner;
 
 import java.io.FileReader;
 import java.util.List;
@@ -9,6 +9,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 import com.buildweek.gestionale_anziendale_energia.models.ComuneItalia;
+import com.buildweek.gestionale_anziendale_energia.service.ComuneItaliaService;
 import com.opencsv.CSVReader;
 import com.opencsv.bean.CsvToBeanBuilder;
 import com.opencsv.exceptions.CsvValidationException;

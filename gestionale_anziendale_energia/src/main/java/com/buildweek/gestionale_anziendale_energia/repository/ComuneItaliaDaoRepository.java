@@ -1,4 +1,4 @@
-package com.buildweek.gestionale_anziendale_energia.comuni;
+package com.buildweek.gestionale_anziendale_energia.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
