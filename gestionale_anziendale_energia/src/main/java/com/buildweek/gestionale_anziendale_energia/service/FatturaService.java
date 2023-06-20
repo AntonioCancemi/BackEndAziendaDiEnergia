@@ -21,7 +21,6 @@ import jakarta.persistence.EntityNotFoundException;
 public class FatturaService {
 	
 	@Autowired FatturaDAOrepository repo;
-
 	
 	public List<Fattura> getAll() {
 		return (List<Fattura>) repo.findAll();
