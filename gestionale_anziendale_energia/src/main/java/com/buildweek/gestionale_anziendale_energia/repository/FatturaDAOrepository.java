@@ -36,7 +36,9 @@ public interface FatturaDAOrepository extends JpaRepository<Fattura, Long>, Pagi
 
 	///////////////////////////////
 
-	public Page<Fattura> findByDataFattura(LocalDate data, Pageable pageable);
+	 Page<Fattura> findAll(Pageable pageable);
+ 	 Page<Fattura> findByStatoFattura(StatoFattura statoFattura, Pageable pageable);
+     Page<Fattura> findByDataFattura(LocalDate data, Pageable pageable);
 
 	@Query("SELECT f FROM Fattura f WHERE f.dataFattura BETWEEN :inizio AND :fine")
 	public Page<Fattura> findByRangeDataPag(LocalDate inizio, LocalDate fine, Pageable pageable);
