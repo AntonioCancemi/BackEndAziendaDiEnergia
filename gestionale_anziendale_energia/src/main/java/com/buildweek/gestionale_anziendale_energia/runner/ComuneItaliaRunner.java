@@ -2,6 +2,7 @@ package com.buildweek.gestionale_anziendale_energia.runner;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -9,8 +10,10 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 import com.buildweek.gestionale_anziendale_energia.models.ComuneItalia;
+import com.buildweek.gestionale_anziendale_energia.models.ProvinceItalia;
 import com.buildweek.gestionale_anziendale_energia.service.ComuneItaliaService;
 import com.opencsv.CSVReader;
+import com.opencsv.bean.CsvToBeanBuilder;
 import com.opencsv.exceptions.CsvValidationException;
 
 @Component
@@ -40,6 +43,17 @@ public class ComuneItaliaRunner implements ApplicationRunner {
 				ciService.createComune(ci);
 			}
 		}
+
+	}
+
+	public void setProvince() throws IOException {
+
+		String fileName = "c:\\test\\csv\\country.csv";
+
+		List<ProvinceItalia> beans = new CsvToBeanBuilder<ProvinceItalia>(new FileReader(fileName))
+				.withType(ProvinceItalia.class).build().parse();
+
+		beans.forEach(System.out::println);
 
 	}
 
