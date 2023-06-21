@@ -1,6 +1,11 @@
 package com.buildweek.gestionale_anziendale_energia.controller;
 
+import java.time.LocalDate;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.buildweek.gestionale_anziendale_energia.enumeration.StatoFattura;
+import com.buildweek.gestionale_anziendale_energia.models.ComuneItalia;
 import com.buildweek.gestionale_anziendale_energia.models.Fattura;
 import com.buildweek.gestionale_anziendale_energia.models.FatturaDTO;
 import com.buildweek.gestionale_anziendale_energia.service.FatturaService;
@@ -54,4 +61,31 @@ public class FatturaController {
 		return ResponseEntity.ok(service.removeFattura(id));
 	}
 
+	//PAGINAZIONE
+	
+	@GetMapping("/page")
+	public ResponseEntity<Page<Fattura>> getPageableAllFattura(Pageable pageable) {
+		//http://localhost:8080/api/comuni/page?size=2&page=2&sort=name,ASC
+		return ResponseEntity.ok(service.getAllFatturePag(pageable));
+	}
+	
+	@GetMapping("/statofattura/{statoFattura}")
+	@PreAuthorize("isAuthenticated()")
+	public ResponseEntity<?> getPageableFatturaByStato(@PathVariable StatoFattura statoFattura, Pageable pageable ) {
+		return new ResponseEntity<Page<Fattura>>(service.getAllFattureByStatoPag(statoFattura, pageable), HttpStatus.FOUND);
+	}
+	
+	@GetMapping("/datafattura/{dataFattura}")
+	@PreAuthorize("isAuthenticated()")
+	public ResponseEntity<?> getPageableFatturaByData(@PathVariable LocalDate data, Pageable pageable ) {
+		return new ResponseEntity<Page<Fattura>>(service.getByDataPag(data, pageable), HttpStatus.FOUND);
+	}
+	
+	@GetMapping("/rangedatafattura/{data1}&{data2}")
+	@PreAuthorize("isAuthenticated()")
+	public ResponseEntity<?> getPageableFatturaByRangeData(@PathVariable LocalDate data1, @PathVariable LocalDate data2, Pageable pageable ) {
+		return new ResponseEntity<Page<Fattura>>(service.getByRangeData(data1, data2, pageable), HttpStatus.FOUND);
+	}
+	
+	
 }

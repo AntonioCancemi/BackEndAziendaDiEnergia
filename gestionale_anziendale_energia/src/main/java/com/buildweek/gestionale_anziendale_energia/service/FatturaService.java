@@ -111,7 +111,10 @@ public class FatturaService {
 	///////////////////////////////////////
 
 	public Page<Fattura> getAllFatturePag(Pageable pag) {
-		return (Page<Fattura>) repo.findAll(pag);
+		return  repo.findAll(pag);
+	}
+	public Page<Fattura> getAllFattureByStatoPag(StatoFattura statoFattura, Pageable pag) {
+		return  repo.findByStatoFattura(statoFattura, pag);
 	}
 
 	public Page<Fattura> getByDataPag(LocalDate data, Pageable pageable) {
@@ -121,5 +124,6 @@ public class FatturaService {
 	public Page<Fattura> getByRangeData(LocalDate startDate, LocalDate endDate, Pageable pageable) {
 		return repo.findByRangeDataPag(startDate, endDate, pageable);
 	}
+
 
 }
