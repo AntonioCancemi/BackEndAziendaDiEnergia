@@ -19,7 +19,6 @@ import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class ClienteService {
-	private static final Long Long = null;
 	@Autowired
 	ClienteDAOrepository repo;
 	@Autowired
@@ -68,8 +67,8 @@ public class ClienteService {
 		for (Indirizzo indirizzo : i) {
 			indirizziRepo.save(indirizzo);
 		}
-		repo.save(c);
 		c.setDataInserimento(LocalDate.now());
+		repo.save(c);
 		return "cliete salvato";
 	}
 
@@ -103,7 +102,7 @@ public class ClienteService {
 						"devi inserire un indirizzo per la sede Operativa e uno per quella Legale, o ne insirisci uno con Tipo Sede Unica");
 			}
 		}
-		// salvataggui undirizzi
+		// salvataggio undirizzi
 		for (Indirizzo indirizzo : i) {
 			indirizziRepo.save(indirizzo);
 		}
