@@ -19,72 +19,96 @@ import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class ClienteService {
+	private static final Long Long = null;
 	@Autowired
 	ClienteDAOrepository repo;
 	@Autowired
 	IndirizziDAOrepository indirizziRepo;
 
 	public String create(Cliente c) {
-
+		List<Indirizzo> i = c.getIndirizzi();
+		// check cliente
 		if (!repo.findByEmailAndPec(c.getEmail(), c.getPec()).isEmpty()) {
-			throw new EntityNotFoundException("entity Found");
+			throw new MyAPIException(HttpStatus.FOUND, "cliente gia registrato");
 		}
-		if (c.getIndirizzi().size() == 0) {
+		// check indirizzi
+		// lunghezza
+		if (i.size() == 0) {
 			throw new MyAPIException(HttpStatus.NOT_ACCEPTABLE, "devi inserire almeno un indirizzo");
 		}
-		if (c.getIndirizzi().size() > 2) {
+		if (i.size() > 2) {
 			throw new MyAPIException(HttpStatus.NOT_ACCEPTABLE, "puoi inserire un massimo di 2 indirizzi");
 		}
-		if (c.getIndirizzi().get(0).getTipoIndirizzo() == TipoIndirizzo.SEDE_UNICA && c.getIndirizzi().size() > 1) {
-			throw new MyAPIException(HttpStatus.NOT_ACCEPTABLE,
-					"hai inserito sede unica non puoi inserire altri indirizzi");
-		} else if (c.getIndirizzi().size() == 2) {
-			List<TipoIndirizzo> tipi = new ArrayList<>();
-			tipi.add(c.getIndirizzi().get(0).getTipoIndirizzo());
-			tipi.add(c.getIndirizzi().get(1).getTipoIndirizzo());
-			if (!tipi.contains(TipoIndirizzo.SEDE_LEGALE) && tipi.contains(TipoIndirizzo.SEDE_OPERATIVA)) {
+		// esistenza
+		if (indirizziRepo.existsByCapAndAndCivicoAndComuneAndVia(i.get(0).getCap(), i.get(0).getCivico(),
+				i.get(0).getComune(), i.get(0).getVia())) {
+			throw new MyAPIException(HttpStatus.FOUND, "Indirizzo gia presente nel data-base");
+		}
+		// check secondo indirizzo
+		if (i.size() == 2) {
+			if (indirizziRepo.existsByCapAndAndCivicoAndComuneAndVia(i.get(1).getCap(), i.get(1).getCivico(),
+					i.get(0).getComune(), i.get(0).getVia())) {
+				throw new MyAPIException(HttpStatus.FOUND, "Indirizzo gia presente nel data-base");
+			}
+			if (i.get(0).getTipoIndirizzo() == i.get(1).getTipoIndirizzo()) {
 				throw new MyAPIException(HttpStatus.NOT_ACCEPTABLE,
 						"devi inserire un indirizzo per la sede Operativa e uno per quella Legale, o ne insirisci uno con Tipo Sede Unica");
 			}
+			for (Indirizzo indirizzo : i) {
+				Boolean flag = indirizzo.getTipoIndirizzo() == TipoIndirizzo.SEDE_UNICA;
+				if (flag && i.size() == 2) {
+					throw new MyAPIException(HttpStatus.NOT_ACCEPTABLE,
+							"Hai inserito sede unica non puoi avere piu di 2 indirizzi");
+				}
+			}
+
 		}
-		if (c.getIndirizzi().size() == 1) {
-			Indirizzo i1 = c.getIndirizzi().get(0);
-//			i1.setCliente(c);
-			indirizziRepo.save(i1);
-		} else {
-			Indirizzo i1 = c.getIndirizzi().get(0);
-			Indirizzo i2 = c.getIndirizzi().get(1);
-//			i1.setCliente(c);
-//			i2.setCliente(c);
-			indirizziRepo.save(i1);
-			indirizziRepo.save(i2);
+
+		// salvataggui undirizzi
+		for (Indirizzo indirizzo : i) {
+			indirizziRepo.save(indirizzo);
 		}
 		repo.save(c);
 		c.setDataInserimento(LocalDate.now());
-		System.out.println(c.getIndirizzi().get(0));
 		return "cliete salvato";
 	}
 
 	public String update(Cliente c) {
-		if (!repo.existsById(c.getIdCliente())) {
-			throw new EntityNotFoundException("Cliente[id:" + c.getIdCliente() + "] not Found");
+		List<Indirizzo> i = c.getIndirizzi();
+		// check cliente
+		if (!repo.findByEmailAndPec(c.getEmail(), c.getPec()).isEmpty()) {
+			throw new MyAPIException(HttpStatus.FOUND, "cliente gia registrato");
 		}
-		if (c.getIndirizzi().size() == 0) {
+		// check indirizzi
+		// lunghezza
+		if (i.size() == 0) {
 			throw new MyAPIException(HttpStatus.NOT_ACCEPTABLE, "devi inserire almeno un indirizzo");
 		}
-		if (c.getIndirizzi().size() > 2) {
+		if (i.size() > 2) {
 			throw new MyAPIException(HttpStatus.NOT_ACCEPTABLE, "puoi inserire un massimo di 2 indirizzi");
+		}
+		// esistenza
+		if (indirizziRepo.existsByCapAndAndCivicoAndComuneAndVia(i.get(0).getCap(), i.get(0).getCivico(),
+				i.get(0).getComune(), i.get(0).getVia())) {
+			throw new MyAPIException(HttpStatus.FOUND, "Indirizzo gia presente nel data-base");
+		}
+		// check secondo indirizzo
+		if (i.size() == 2) {
+			if (indirizziRepo.existsByCapAndAndCivicoAndComuneAndVia(i.get(1).getCap(), i.get(1).getCivico(),
+					i.get(0).getComune(), i.get(0).getVia())) {
+				throw new MyAPIException(HttpStatus.FOUND, "Indirizzo gia presente nel data-base");
+			}
+			if (i.get(0).getTipoIndirizzo() == i.get(1).getTipoIndirizzo()) {
+				throw new MyAPIException(HttpStatus.NOT_ACCEPTABLE,
+						"devi inserire un indirizzo per la sede Operativa e uno per quella Legale, o ne insirisci uno con Tipo Sede Unica");
+			}
+		}
+		// salvataggui undirizzi
+		for (Indirizzo indirizzo : i) {
+			indirizziRepo.save(indirizzo);
 		}
 		repo.save(c);
 		return "cliente salvato";
-	}
-
-	public String remove(Long id) {
-		if (repo.existsById(id)) {
-			throw new EntityNotFoundException("Cliente[id:" + id + "] not Found");
-		}
-		repo.deleteById(id);
-		return "cliente  eliminato!!!";
 	}
 
 	public String removeById(Long id) {
@@ -95,17 +119,29 @@ public class ClienteService {
 		return "Cliente [id:" + id + "] removed!!!";
 	}
 
-	public List<Cliente> getAll() {
+	// GET HANDLER
+	public List<Cliente> get(String type, Long id) {
 		if (repo.findAll().isEmpty()) {
 			throw new EntityNotFoundException("No entity Found");
 		}
-		return repo.findAll();
+		switch (type) {
+		case "nome_contatto":
+			return repo.getAllClienteOrderBynomeContatto().get();
+		case "provincia":
+			return repo.getALLClientiOrderByComune().get();
+		case "fatturato_annuale":
+			return repo.getAllClienteOrderByFatturatoAnnuo().get();
+		case "data_inserimento":
+			return repo.getAllClienteOrderByFatturatoAnnuo().get();
+		case "data_ultimo_contatto":
+			return repo.getAllClienteOrderByDataUltimoContatto().get();
+		case "id":
+			List<Cliente> l = new ArrayList<>();
+			l.add(repo.findById(id).get());
+			return l;
+		default:
+			return repo.findAll();
+		}
 	}
 
-	public Cliente getById(Long id) {
-		if (!repo.existsById(id)) {
-			throw new EntityNotFoundException("No entity Found");
-		}
-		return repo.findById(id).get();
-	}
 }

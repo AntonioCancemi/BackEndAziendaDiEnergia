@@ -20,10 +20,10 @@ public class ClienteController {
 	@Autowired
 	private ClienteService service;
 
-	@GetMapping
-	public ResponseEntity<?> getAll() {
+	@GetMapping("/{type}/{id}")
+	public ResponseEntity<?> get(@PathVariable String type, @PathVariable Long id) {
 
-		return ResponseEntity.ok(service.getAll());
+		return ResponseEntity.ok(service.get(type, id));
 	}
 
 	@PostMapping
@@ -37,14 +37,8 @@ public class ClienteController {
 	}
 
 	@DeleteMapping("/{id}")
-
 	public ResponseEntity<?> removeById(@PathVariable Long id) {
 		return ResponseEntity.ok(service.removeById(id));
 	}
 
-	@GetMapping("/{id}")
-	public ResponseEntity<?> getById(@PathVariable Long id) {
-
-		return ResponseEntity.ok(service.getById(id));
-	}
 }

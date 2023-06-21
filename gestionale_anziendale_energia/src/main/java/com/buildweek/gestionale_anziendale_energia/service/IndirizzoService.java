@@ -24,4 +24,5 @@ public class IndirizzoService {
 	public Indirizzo createComune(Indirizzo i) {
 		return repo.save(i);
 	}
+
 }
