@@ -5,11 +5,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import com.buildweek.gestionale_anziendale_energia.enumeration.StatoFattura;
 import com.buildweek.gestionale_anziendale_energia.enumeration.TipoIndirizzo;
 import com.buildweek.gestionale_anziendale_energia.models.Cliente;
+import com.buildweek.gestionale_anziendale_energia.models.Fattura;
 import com.buildweek.gestionale_anziendale_energia.models.Indirizzo;
 import com.buildweek.gestionale_anziendale_energia.repository.ClienteDAOrepository;
 import com.buildweek.gestionale_anziendale_energia.repository.IndirizziDAOrepository;
@@ -143,4 +147,25 @@ public class ClienteService {
 		}
 	}
 
+///////////////////////////////////////
+
+   public Page<Cliente> getAllClientePag(Pageable pag) {
+   return  repo.findAll(pag);	
+   }
+   
+   public Page<Cliente> getAllClienteByNomeContatto(String nome, Pageable pag) {
+		return  repo.getAllByNomeContatto(nome, pag);
+	}
+  
+   public Page<Cliente> getAllClienteByFatturatoAnnuo(Long amount1, Long amount2, Pageable pag) {
+		return  repo.findClientesByFatturatoAnnuo(amount1, amount2, pag);
+	}
+   
+   public Page<Cliente> getAllClienteByDataInserimento(LocalDate data1, LocalDate data2, Pageable pag) {
+		return  repo.  findClienteyDataInserimento(data1, data2, pag);
+	}
+
+   public Page<Cliente> getAllClienteByDataUltimoContatto(LocalDate data1, LocalDate data2, Pageable pag) {
+		return  repo.  findClienteByDataUltimoContatto(data1, data2, pag);
+	}
 }

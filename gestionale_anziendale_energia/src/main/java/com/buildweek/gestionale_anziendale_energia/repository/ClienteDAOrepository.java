@@ -49,7 +49,7 @@ public interface ClienteDAOrepository extends JpaRepository<Cliente, Long>, Pagi
 	Optional<List<Cliente>> getAllClienteOrderByDataUltimoContatto();
 
 ////////////////////////////////
-	 Page<Cliente> findAll(Pageable pageable);
+	Page<Cliente> findAll(Pageable pageable);
 
 	@Query("SELECT c FROM Cliente c WHERE c.nomeContatto LIKE LOWER (CONCAT('%', :name, '%'))")
 	Page<Cliente> getAllByNomeContatto(String name, Pageable pageable);
@@ -61,6 +61,8 @@ public interface ClienteDAOrepository extends JpaRepository<Cliente, Long>, Pagi
 	Page<Cliente> findClienteyDataInserimento(@Param("data1") LocalDate data1, @Param("data2") LocalDate data2, Pageable pageable);
 		
 	@Query("SELECT c FROM Cliente c WHERE c.dataUltimoContatto BETWEEN :data1 AND :data2")
-	Page<Cliente> findCustomerByLastContactData(@Param("data1") LocalDate data1, @Param("data2") LocalDate data2,Pageable pageable);
+	Page<Cliente> findClienteByDataUltimoContatto(@Param("data1") LocalDate data1, @Param("data2") LocalDate data2,Pageable pageable);
+
+
 
 }
