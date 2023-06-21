@@ -124,9 +124,11 @@ public class ClienteService {
 
 	// GET HANDLER
 	public List<Cliente> get(String type, Long id) {
-		if (repo.findAll().isEmpty()) {
-			throw new EntityNotFoundException("No entity Found");
-		}
+		String value = null;
+		if (StatoFattura.valueOf(value).equals(StatoFattura.NONPAGATO))
+			if (repo.findAll().isEmpty()) {
+				throw new EntityNotFoundException("No entity Found");
+			}
 		switch (type) {
 		case "nome_contatto":
 			return repo.getAllClienteOrderBynomeContatto().get();

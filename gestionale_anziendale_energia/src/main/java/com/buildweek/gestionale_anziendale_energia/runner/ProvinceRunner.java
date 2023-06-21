@@ -43,33 +43,5 @@ public class ProvinceRunner implements ApplicationRunner {
 				repo.save(p);
 			}
 		}
-//		try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-//			String line;
-//			while ((line = reader.readLine()) != null) {
-////				String[] arr = line.split(";");
-////				System.out.println(arr[0].toString() + "|" + arr[1].toString() + "|" + arr[2].toString());
-////
-//				String[] x = line.split(";");
-//				String part1 = x[0].toString();
-//				String part2 = x[1].toString();
-//				String part3 = x[2].toString();
-//				ProvinceItalia p = new ProvinceItalia(part1, part2, part3);
-//				repo.save(p);
-//			}
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//		try (CSVReader reader = new CSVReader(new FileReader(filePath))) {
-//			String[] lineInArray;
-//			while ((lineInArray = reader.readNext()) != null) {
-////				String[] parts = lineInArray[].split(";");
-////				String part1 = parts[0];
-////				String part2 = parts[1];
-////				String part3 = parts[2];
-//				System.out.println(lineInArray);
-////				ProvinceItalia p = new ProvinceItalia(part1, part2, part3);
-////				repo.save(p);
-//			}
-//		}
 	}
 }
