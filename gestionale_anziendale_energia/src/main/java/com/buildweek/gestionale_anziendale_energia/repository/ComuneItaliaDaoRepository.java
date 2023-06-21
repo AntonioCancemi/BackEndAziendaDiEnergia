@@ -9,7 +9,7 @@ import com.buildweek.gestionale_anziendale_energia.models.ComuneItalia;
 
 public interface ComuneItaliaDaoRepository extends JpaRepository<ComuneItalia, Long>, PagingAndSortingRepository<ComuneItalia, Long>{
 
-	Page<ComuneItalia> findByCap(Long cap, Pageable pageable);
+	Page<ComuneItalia> findByCap(String cap, Pageable pageable);
 	Page<ComuneItalia> findByProvincia(String provincia, Pageable pageable);
 	
 }
