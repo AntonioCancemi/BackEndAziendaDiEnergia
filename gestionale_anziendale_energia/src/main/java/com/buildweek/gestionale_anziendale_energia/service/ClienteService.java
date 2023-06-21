@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import com.buildweek.gestionale_anziendale_energia.enumeration.StatoFattura;
 import com.buildweek.gestionale_anziendale_energia.enumeration.TipoIndirizzo;
 import com.buildweek.gestionale_anziendale_energia.models.Cliente;
 import com.buildweek.gestionale_anziendale_energia.models.Indirizzo;
@@ -120,9 +121,11 @@ public class ClienteService {
 
 	// GET HANDLER
 	public List<Cliente> get(String type, Long id) {
-		if (repo.findAll().isEmpty()) {
-			throw new EntityNotFoundException("No entity Found");
-		}
+		String value = null;
+		if (StatoFattura.valueOf(value).equals(StatoFattura.NONPAGATO))
+			if (repo.findAll().isEmpty()) {
+				throw new EntityNotFoundException("No entity Found");
+			}
 		switch (type) {
 		case "nome_contatto":
 			return repo.getAllClienteOrderBynomeContatto().get();
