@@ -17,7 +17,7 @@ public class FatturaDTO {
 	private Long numeroFattura;
 	private Integer anno;
 	private LocalDate dataFattura;
-	private double importo;
+	private Long importo;
 	private StatoFattura statoFattura;
 	private Long idCliente;
 }

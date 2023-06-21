@@ -1,5 +1,7 @@
 package com.buildweek.gestionale_anziendale_energia.controller;
 
+import java.time.LocalDate;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.buildweek.gestionale_anziendale_energia.enumeration.StatoFattura;
 import com.buildweek.gestionale_anziendale_energia.models.Fattura;
 import com.buildweek.gestionale_anziendale_energia.models.FatturaDTO;
 import com.buildweek.gestionale_anziendale_energia.service.FatturaService;
@@ -24,16 +27,10 @@ public class FatturaController {
 	@Autowired
 	private FatturaService service;
 
-	@GetMapping
-	@PreAuthorize("isAuthenticated()")
-	public ResponseEntity<?> getAll() {
-		return ResponseEntity.ok(service.getAll());
-	}
-
-	@GetMapping("/{id}")
-	@PreAuthorize("isAuthenticated()")
-	public ResponseEntity<?> getById(@PathVariable Long id) {
-		return ResponseEntity.ok(service.getFatturaByNumero(id));
+	@GetMapping("/{type}/{value}")
+//	@PreAuthorize("isAuthenticated()")
+	public ResponseEntity<?> get(@PathVariable String type, @PathVariable String value) {
+		return ResponseEntity.ok(service.get(type, value));
 	}
 
 	@PostMapping

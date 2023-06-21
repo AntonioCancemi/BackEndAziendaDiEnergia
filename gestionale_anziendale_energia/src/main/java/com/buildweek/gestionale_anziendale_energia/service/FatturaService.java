@@ -1,6 +1,7 @@
 package com.buildweek.gestionale_anziendale_energia.service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.buildweek.gestionale_anziendale_energia.enumeration.StatoFattura;
+import com.buildweek.gestionale_anziendale_energia.models.Cliente;
 import com.buildweek.gestionale_anziendale_energia.models.Fattura;
 import com.buildweek.gestionale_anziendale_energia.models.FatturaDTO;
 import com.buildweek.gestionale_anziendale_energia.repository.ClienteDAOrepository;
@@ -92,20 +94,42 @@ public class FatturaService {
 //		 return repo.findByCliente(c);		 
 //	   }
 
-	public List<Fattura> getByStato(StatoFattura s) {
-		return repo.findByStatoFattura(s);
-	}
-
-	public List<Fattura> getByData(LocalDate dataFattura) {
-		return repo.findByDataFattura(dataFattura);
-	}
-
-	public List<Fattura> getByAnno(Integer anno) {
-		return repo.findByAnno(anno);
-	}
-
-	public List<Fattura> getByRangeImporto(double d1, double d2) {
-		return repo.findByRangeImporto(d1, d2);
+	public List<Fattura> get(String type, String value) {
+		switch (type) {
+		case "stato":
+			StatoFattura s = StatoFattura.valueOf(value.toUpperCase());
+			
+			if(repo.findByStatoFattura(s).isEmpty()){
+				throw new EntityNotFoundException("Nessuna fattura per questa ricerca!");
+			}
+			return repo.findByStatoFattura(s);
+		case "data":
+			LocalDate l = LocalDate.parse(value);
+			if(repo.findByDataFattura(l).isEmpty()){
+				throw new EntityNotFoundException("Nessuna fattura per questa ricerca!");
+			}
+			return repo.findByDataFattura(l);
+		case "anno":
+			if(repo.findByAnno(Integer.parseInt(value)).isEmpty()){
+				throw new EntityNotFoundException("Nessuna fattura per questa ricerca!");
+			}
+			return repo.findByAnno(Integer.parseInt(value));
+		case "importo":
+			String [] part = value.split("-");
+			if(repo.findByRangeImporto(Long.parseLong(part[0]), Long.parseLong(part[1])).isEmpty()){
+				throw new EntityNotFoundException("Nessuna fattura per questa ricerca!");
+			}
+			return repo.findByRangeImporto(Long.parseLong(part[0]), Long.parseLong(part[1]));
+		case "id":
+			List<Fattura> ll = new ArrayList<>();
+			ll.add(repo.findById(Long.parseLong(value)).get());
+			if(ll.isEmpty()){
+				throw new EntityNotFoundException("Nessuna fattura per questa ricerca!");
+			}
+			return ll;
+		default:
+			return repo.findAll();
+		}
 	}
 
 	///////////////////////////////////////

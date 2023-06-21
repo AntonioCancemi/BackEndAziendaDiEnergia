@@ -37,7 +37,7 @@ public class Fattura {
 	@Column(nullable = false)
 	private LocalDate dataFattura;
 	@Column(nullable = false)
-	private double importo;
+	private Long importo;
 	@Enumerated(EnumType.STRING)
 	private StatoFattura statoFattura;
 
