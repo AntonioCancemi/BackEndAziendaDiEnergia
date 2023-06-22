@@ -17,17 +17,16 @@ import com.opencsv.exceptions.CsvValidationException;
 @Component
 public class ComuneItaliaRunner implements ApplicationRunner {
 
-	@Autowired
-	ComuneItaliaDaoRepository repo;;
+		@Autowired ComuneItaliaDaoRepository repo;
 
-	@Override
-	public void run(ApplicationArguments args) throws Exception {
+		@Override
+		public void run(ApplicationArguments args) throws Exception {
 
 		if(repo.findAll().isEmpty()) {
 			setComuni();			
 		}
 
-	}
+		}
 
 	public void setComuni() throws IOException, CsvValidationException {
 		try (CSVReader reader = new CSVReader(new FileReader(

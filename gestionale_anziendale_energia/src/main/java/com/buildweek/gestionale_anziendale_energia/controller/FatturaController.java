@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,7 +20,7 @@ import com.buildweek.gestionale_anziendale_energia.models.Fattura;
 import com.buildweek.gestionale_anziendale_energia.models.FatturaDTO;
 import com.buildweek.gestionale_anziendale_energia.service.FatturaService;
 
-//@CrossOrigin(origins =  "*", maxAge = 360000)
+@CrossOrigin(origins = "*", maxAge = 360000)
 @RestController
 @RequestMapping("/api/fatture")
 public class FatturaController {

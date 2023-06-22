@@ -2,6 +2,7 @@ package com.buildweek.gestionale_anziendale_energia.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +17,7 @@ import com.buildweek.gestionale_anziendale_energia.service.ClienteService;
 
 @RestController
 @RequestMapping("/api/clienti")
+@CrossOrigin(origins = "*", maxAge = 360000)
 public class ClienteController {
 	@Autowired
 	private ClienteService service;
