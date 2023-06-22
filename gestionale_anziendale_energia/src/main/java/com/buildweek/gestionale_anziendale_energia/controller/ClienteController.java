@@ -17,7 +17,7 @@ import com.buildweek.gestionale_anziendale_energia.service.ClienteService;
 
 @RestController
 @RequestMapping("/api/clienti")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*", maxAge = 360000)
 public class ClienteController {
 	@Autowired
 	private ClienteService service;
