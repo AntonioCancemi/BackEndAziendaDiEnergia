@@ -9,6 +9,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 import com.buildweek.gestionale_anziendale_energia.models.ComuneItalia;
+import com.buildweek.gestionale_anziendale_energia.repository.ComuneItaliaDaoRepository;
 import com.buildweek.gestionale_anziendale_energia.service.ComuneItaliaService;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
@@ -16,15 +17,16 @@ import com.opencsv.exceptions.CsvValidationException;
 @Component
 public class ComuneItaliaRunner implements ApplicationRunner {
 
-	@Autowired
-	ComuneItaliaService ciService;
+		@Autowired ComuneItaliaDaoRepository repo;;
 
-	@Override
-	public void run(ApplicationArguments args) throws Exception {
+		@Override
+		public void run(ApplicationArguments args) throws Exception {
 
-		setComuni();
+			if(repo.findAll().isEmpty()) {
+				setComuni();			
+			}
 
-	}
+		}
 
 	public void setComuni() throws IOException, CsvValidationException {
 		try (CSVReader reader = new CSVReader(new FileReader(
