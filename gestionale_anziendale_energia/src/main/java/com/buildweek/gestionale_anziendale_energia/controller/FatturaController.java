@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.buildweek.gestionale_anziendale_energia.enumeration.StatoFattura;
 import com.buildweek.gestionale_anziendale_energia.models.Fattura;
 import com.buildweek.gestionale_anziendale_energia.models.FatturaDTO;
 import com.buildweek.gestionale_anziendale_energia.service.FatturaService;

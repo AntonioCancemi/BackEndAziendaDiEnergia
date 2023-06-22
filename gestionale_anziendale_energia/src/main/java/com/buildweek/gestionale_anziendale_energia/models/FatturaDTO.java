@@ -18,6 +18,6 @@ public class FatturaDTO {
 	private Integer anno;
 	private LocalDate dataFattura;
 	private Long importo;
-	private StatoFattura statoFattura;
+	private String statoFattura;
 	private Long idCliente;
 }

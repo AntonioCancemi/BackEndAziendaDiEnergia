@@ -54,7 +54,7 @@ public class FatturaService {
 		fattura.setDataFattura(DTO.getDataFattura());
 		fattura.setImporto(DTO.getImporto());
 		fattura.setNumeroFattura(DTO.getNumeroFattura());
-		fattura.setStatoFattura(DTO.getStatoFattura());
+		fattura.setStatoFattura(StatoFattura.valueOf(DTO.getStatoFattura()));
 		
 		System.out.println(fattura);
 		repo.save(fattura);
